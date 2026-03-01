@@ -22,7 +22,7 @@ services:
     buildCommand: npm install && npm run build
     publishDir: dist
     envVars:
-      - key: API_URL
+      - key: VITE_API_URL
         value: https://factory-ai-backend.onrender.com
       - key: NODE_VERSION
         value: "20"
