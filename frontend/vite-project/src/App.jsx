@@ -13,7 +13,8 @@ import {
   BarChart3,
 } from "lucide-react";
 
-const API_BASE = "/api";
+// Use environment variable or fallback to proxy
+const API_BASE = import.meta.env.VITE_API_URL || "/api";
 
 function App() {
   const [factoryMetrics, setFactoryMetrics] = useState(null);

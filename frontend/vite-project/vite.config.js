@@ -1,12 +1,7 @@
-// vite.config.js
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// Use different backend URL for Docker vs local development
-const apiTarget = process.env.DOCKER
-  ? "http://backend:8000"
-  : "http://localhost:8000";
-
+// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
   server: {
@@ -14,9 +9,13 @@ export default defineConfig({
     port: 5173,
     proxy: {
       "/api": {
-        target: apiTarget,
+        target: process.env.API_URL || "http://localhost:8000",
         changeOrigin: true,
       },
     },
+  },
+  build: {
+    outDir: "dist",
+    sourcemap: false,
   },
 });
