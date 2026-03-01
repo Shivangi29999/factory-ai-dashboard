@@ -4,12 +4,18 @@ from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
 import random
 from typing import List
+import sys
+from pathlib import Path
+
+# Add backend to path
+sys.path.insert(0, str(Path(__file__).parent))
 
 from database import engine, Base, get_db
 from models import Worker, Workstation, Event
 from schemas import EventCreate
 from metrics import get_factory_metrics, get_worker_metrics, get_workstation_metrics
-# Create tables
+
+# Rest of your code...# Create tables
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Factory AI Dashboard API")

@@ -14,7 +14,11 @@ import {
 } from "lucide-react";
 
 // Use environment variable or fallback to proxy
-const API_BASE = import.meta.env.VITE_API_URL || "/api";
+// VITE_API_URL should be set to the base URL (e.g., https://factory-ai-dashboard.onrender.com)
+// The code automatically adds /api to the URL
+const API_BASE = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}/api`
+  : "/api";
 
 function App() {
   const [factoryMetrics, setFactoryMetrics] = useState(null);

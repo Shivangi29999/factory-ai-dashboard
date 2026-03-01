@@ -1,8 +1,10 @@
 node_modules
+npm-debug.log
+build
 dist
-.git
-.gitignore
-*.log
-.DS_Store
 .env
 .env.local
+.git
+.gitignore
+README.md
+.DS_Store
