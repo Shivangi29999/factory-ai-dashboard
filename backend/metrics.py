@@ -55,24 +55,24 @@ def get_factory_metrics(db: Session):
         "product_count_total": total_products
     }
 
-def get_worker_metrics(db: Session):
-    """Get metrics for each worker"""
+def get_workstation_metrics(db: Session):
+    """Get metrics for each workstation"""
     now = datetime.now()
     last_8_hours = now - timedelta(hours=8)
     
-    workers = db.query(Worker).all()
+    workstations = db.query(Workstation).all()
     metrics = []
     
-    for worker in workers:
-        worker_events = db.query(Event).filter(
-            Event.worker_id == worker.id,
+    for station in workstations:
+        station_events = db.query(Event).filter(
+            Event.workstation_id == station.id,
             Event.timestamp >= last_8_hours
         ).all()
         
-        if not worker_events:
+        if not station_events:
             metrics.append({
-                "id": worker.id,
-                "name": worker.name,
+                "id": station.id,
+                "name": station.name,
                 "total_events": 0,
                 "working_count": 0,
                 "idle_count": 0,
@@ -80,6 +80,26 @@ def get_worker_metrics(db: Session):
                 "average_confidence": 0.0,
                 "status": "no_data"
             })
+            continue
+        
+        total = len(station_events)
+        working = len([e for e in station_events if e.event_type == "working"])
+        idle = len([e for e in station_events if e.event_type == "idle"])
+        absent = len([e for e in station_events if e.event_type == "absent"])
+        avg_confidence = sum(e.confidence for e in station_events) / total if total > 0 else 0.0
+        
+        metrics.append({
+            "id": station.id,
+            "name": station.name,
+            "total_events": total,
+            "working_count": working,
+            "idle_count": idle,
+            "absent_count": absent,
+            "average_confidence": float(round(avg_confidence, 2)),
+            "status": "active" if working > 0 else "idle"
+        })
+    
+    
             continue
         
         total = len(worker_events)

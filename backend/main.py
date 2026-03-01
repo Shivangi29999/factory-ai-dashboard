@@ -9,7 +9,6 @@ from database import engine, Base, get_db
 from models import Worker, Workstation, Event
 from schemas import EventCreate
 from metrics import get_factory_metrics, get_worker_metrics, get_workstation_metrics
-
 # Create tables
 Base.metadata.create_all(bind=engine)
 
