@@ -1,42 +1,223 @@
+/* App-specific styles for Factory AI Dashboard */
+
+/* Remove default #root styles that interfere with full-width layout */
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+/* Header gradient background */
+.header-gradient {
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 20px 25px -5px rgb(0 0 0 / 0.1),
+    0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+/* Icon container styles */
+.icon-container {
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-container-blue {
+  background-color: #eff6ff;
+  color: #2563eb;
+}
+
+.icon-container-green {
+  background-color: #f0fdf4;
+  color: #16a34a;
+}
+
+.icon-container-purple {
+  background-color: #faf5ff;
+  color: #9333ea;
+}
+
+.icon-container-yellow {
+  background-color: #fefce8;
+  color: #ca8a04;
+}
+
+.icon-container-red {
+  background-color: #fef2f2;
+  color: #dc2626;
+}
+
+/* Number display styles */
+.stat-number {
+  font-size: 1.875rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+/* Grid gap utilities */
+.gap-6 {
+  gap: 1.5rem;
+}
+
+/* Custom button styles */
+.action-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.action-btn-primary {
+  background-color: #2563eb;
+  color: white;
+}
+
+.action-btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+.action-btn-success {
+  background-color: #10b981;
+  color: white;
+}
+
+.action-btn-success:hover {
+  background-color: #059669;
+}
+
+.action-btn-warning {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.action-btn-warning:hover {
+  background-color: #d97706;
+}
+
+/* Tab navigation */
+.tab-nav {
+  display: flex;
+  gap: 0.25rem;
+  overflow-x: auto;
+}
+
+.tab-button {
+  white-space: nowrap;
+  padding: 1rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  border-bottom: 2px solid transparent;
+  color: #64748b;
+  transition: all 0.2s;
+}
+
+.tab-button:hover {
+  color: #334155;
+  border-color: #cbd5e1;
+}
+
+.tab-button.active {
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+/* Event distribution cards */
+.event-card {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid;
+}
+
+.event-card-working {
+  background-color: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.event-card-idle {
+  background-color: #fefce8;
+  border-color: #fef08a;
+}
+
+.event-card-absent {
+  background-color: #fef2f2;
+  border-color: #fecaca;
+}
+
+.event-card-product {
+  background-color: #eff6ff;
+  border-color: #bfdbfe;
+}
+
+/* Worker/Station card styles */
+.worker-card,
+.station-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  border: 1px solid #e2e8f0;
+  padding: 1.25rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.worker-card:hover,
+.station-card:hover {
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  transform: translateY(-2px);
+}
+
+/* Empty state */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.empty-state-icon {
+  color: #e2e8f0;
+  margin-bottom: 1rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Skeleton loading */
+.skeleton {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  background-color: #e2e8f0;
+  border-radius: 0.25rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
   }
 }
 
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+/* Focus states */
+button:focus-visible,
+a:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 2px #3b82f6,
+    0 0 0 4px white;
 }

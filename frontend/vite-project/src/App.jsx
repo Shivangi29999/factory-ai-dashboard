@@ -11,11 +11,13 @@ import {
   AlertCircle,
   CheckCircle,
   BarChart3,
+  Factory,
+  Wrench,
+  Cpu,
 } from "lucide-react";
+import "./App.css";
 
 // Use environment variable or fallback to proxy
-// VITE_API_URL should be set to the base URL (e.g., https://factory-ai-dashboard.onrender.com)
-// The code automatically adds /api to the URL
 const API_BASE = import.meta.env.VITE_API_URL
   ? `${import.meta.env.VITE_API_URL}/api`
   : "/api";
@@ -100,10 +102,10 @@ function App() {
 
   if (loading && !factoryMetrics) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading Dashboard...</p>
+          <div className="spinner mx-auto mb-4"></div>
+          <p className="text-slate-600 font-medium">Loading Dashboard...</p>
         </div>
       </div>
     );
@@ -112,53 +114,67 @@ function App() {
   const getStatusBadge = (status) => {
     switch (status) {
       case "working":
-        return "bg-green-100 text-green-800";
+        return "badge badge-working";
       case "idle":
-        return "bg-yellow-100 text-yellow-800";
+        return "badge badge-idle";
       case "absent":
-        return "bg-red-100 text-red-800";
+        return "badge badge-absent";
       case "product_count":
-        return "bg-blue-100 text-blue-800";
+        return "badge bg-blue-100 text-blue-800";
       default:
-        return "bg-gray-100 text-gray-800";
+        return "badge bg-gray-100 text-gray-800";
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       {/* Header */}
-      <header className="bg-linear-to-r from-blue-800 to-blue-600 text-white shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <BarChart3 size={32} />
-              <h1 className="text-3xl font-bold">Factory AI Dashboard</h1>
+      <header className="header-gradient text-white shadow-xl">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
+                <Factory size={36} />
+              </div>
+              <div>
+                <h1 className="text-2xl sm:text-3xl font-bold">
+                  Factory AI Dashboard
+                </h1>
+                <p className="text-blue-200 text-sm">
+                  Real-time manufacturing analytics
+                </p>
+              </div>
             </div>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               <button
                 onClick={seedDatabase}
                 disabled={loading}
-                className="bg-white text-blue-600 px-4 py-2 rounded-lg font-semibold hover:bg-gray-100 disabled:opacity-50"
+                className="action-btn bg-white text-blue-700 hover:bg-blue-50 font-semibold"
               >
+                <Wrench size={18} />
                 Initialize DB
               </button>
               <button
                 onClick={resetData}
                 disabled={resetting}
-                className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg font-semibold disabled:opacity-50"
+                className="action-btn action-btn-warning"
               >
-                {resetting ? "Resetting..." : "Reset Data"}
+                <RefreshCw
+                  size={18}
+                  className={resetting ? "animate-spin" : ""}
+                />
+                {resetting ? "Resetting..." : "Reset"}
               </button>
               <button
                 onClick={generateRandomData}
                 disabled={generating}
-                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-semibold disabled:opacity-50 flex items-center gap-2"
+                className="action-btn action-btn-success"
               >
-                <RefreshCw
+                <Activity
                   size={18}
-                  className={generating ? "animate-spin" : ""}
+                  className={generating ? "animate-pulse" : ""}
                 />
-                {generating ? "Generating..." : "Generate Data"}
+                {generating ? "Generating..." : "Generate"}
               </button>
             </div>
           </div>
@@ -166,18 +182,20 @@ function App() {
       </header>
 
       {error && (
-        <div className="bg-red-50 border-l-4 border-red-500 p-4 m-4">
-          <div className="flex items-center gap-2">
-            <AlertCircle className="text-red-600" />
-            <p className="text-red-800">{error}</p>
+        <div className="max-w-7xl mx-auto px-4 mt-4">
+          <div className="bg-red-50 border-l-4 border-red-500 rounded-lg p-4 shadow-sm">
+            <div className="flex items-center gap-3">
+              <AlertCircle className="text-red-600 shrink-0" />
+              <p className="text-red-800 font-medium">{error}</p>
+            </div>
           </div>
         </div>
       )}
 
       {/* Navigation */}
-      <nav className="bg-white border-b border-gray-200 sticky top-0 z-10">
+      <nav className="bg-white border-b border-slate-200 sticky top-0 z-10 shadow-sm">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex gap-6">
+          <div className="tab-nav">
             <button
               onClick={() => setSelectedView("overview")}
               className={`py-4 px-2 border-b-2 font-semibold transition ${
